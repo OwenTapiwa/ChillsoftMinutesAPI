@@ -1,11 +1,10 @@
-﻿using AutoMapper;
-using ChillsoftMinutesAPI.Entities;
+﻿using ChillsoftMinutesAPI.Entities;
 using ChillsoftMinutesAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChillsoftMinutesAPI.Data.Repositories
 {
-    public class MeetingTypeRepository : IMeetingTypeRepository
+    public class MeetingItemStatusRepository : IMeetingItemStatusRepository
     {
         private readonly DataContext _context;
         public MeetingTypeRepository(DataContext context)
@@ -40,5 +39,6 @@ namespace ChillsoftMinutesAPI.Data.Repositories
         {
             return _context.MeetingTypes.Any(o => o.Name.ToLower().Trim() == meetingType);
         }
+
     }
 }

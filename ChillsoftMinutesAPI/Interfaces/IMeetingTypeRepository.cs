@@ -8,6 +8,7 @@ namespace ChillsoftMinutesAPI.Interfaces
         Task<bool> AddTypeAsync(MeetingType meetingType);
         Task<bool> RemoveTypeAsync(MeetingType meetingType);
         bool MeetingTypeExists(string meetingType);
+        Task<MeetingType> GetMeetingTypeByName(string name);
 
     }
 }
