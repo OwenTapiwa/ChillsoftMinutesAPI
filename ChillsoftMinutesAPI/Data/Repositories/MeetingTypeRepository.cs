@@ -26,6 +26,10 @@ namespace ChillsoftMinutesAPI.Data.Repositories
             return await _context.SaveChangesAsync() > 0;
 
         }
+        public async Task<MeetingType> GetMeetingTypeByName(string name)
+        {
+            return await _context.MeetingTypes.Where(x => x.Name == name.Trim()).FirstOrDefaultAsync();
+        }
         public async Task<bool> RemoveTypeAsync(MeetingType meetingType)
         {
             _context.Entry(meetingType).State = EntityState.Deleted;

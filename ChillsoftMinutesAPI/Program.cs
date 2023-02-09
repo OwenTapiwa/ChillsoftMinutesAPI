@@ -1,6 +1,8 @@
 using ChillsoftMinutesAPI.Data;
 using ChillsoftMinutesAPI.Extensions;
+using ChillsoftMinutesAPI.Middleware;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -14,15 +16,12 @@ builder.Services.AddApplicationServices(_config);
 
 builder.Services.AddControllers();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      builder =>
-                      {
-                          builder.WithOrigins("http://localhost:4200", "https://localhost:4200", "http://redheartgroup.co.za", "https://redheartgroup.co.za", "http://test.redheartgroup.co.za").AllowAnyHeader().AllowAnyMethod();
-                      });
-});
 
+//services cors
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+{
+    builder.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+}));
 builder.Services.AddIdentityServices(_config);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -54,6 +53,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
+app.UseCors("corsapp");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

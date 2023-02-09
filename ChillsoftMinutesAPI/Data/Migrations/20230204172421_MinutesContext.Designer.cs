@@ -4,6 +4,7 @@ using ChillsoftMinutesAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChillsoftMinutesAPI.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230204172421_MinutesContext")]
+    partial class MinutesContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,10 +193,7 @@ namespace ChillsoftMinutesAPI.Data.Migrations
             modelBuilder.Entity("ChillsoftMinutesAPI.Entities.MeetingItemStatus", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("datetime2");
@@ -201,16 +201,11 @@ namespace ChillsoftMinutesAPI.Data.Migrations
                     b.Property<DateTime>("LastUpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MeetingItemId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MeetingItemId");
 
                     b.ToTable("MeetingItemStatuses");
                 });
@@ -409,8 +404,8 @@ namespace ChillsoftMinutesAPI.Data.Migrations
             modelBuilder.Entity("ChillsoftMinutesAPI.Entities.MeetingItemStatus", b =>
                 {
                     b.HasOne("ChillsoftMinutesAPI.Entities.MeetingItem", "MeetingItem")
-                        .WithMany("MeetingItemStatus")
-                        .HasForeignKey("MeetingItemId")
+                        .WithOne("MeetingItemStatus")
+                        .HasForeignKey("ChillsoftMinutesAPI.Entities.MeetingItemStatus", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -484,7 +479,8 @@ namespace ChillsoftMinutesAPI.Data.Migrations
 
             modelBuilder.Entity("ChillsoftMinutesAPI.Entities.MeetingItem", b =>
                 {
-                    b.Navigation("MeetingItemStatus");
+                    b.Navigation("MeetingItemStatus")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ChillsoftMinutesAPI.Entities.Roles", b =>

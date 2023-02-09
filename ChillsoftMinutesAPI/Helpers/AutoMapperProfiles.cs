@@ -11,6 +11,12 @@ namespace ChillsoftMinutesAPI.Helpers
     {
         public AutoMapperProfiles()
         {
+            CreateMap<MeetingTypeDto, MeetingType>()
+                .ForMember(x => x.Name, opt => opt.MapFrom(src => src.Name.ToUpper().Trim()));
+            CreateMap<AppUser, MemberDto>();
+            CreateMap<MeetingItemStatusDto, MeetingItemStatus>()
+                .ForMember(x => x.LastUpdatedDate, opt => opt.MapFrom(src => DateTime.Now));
+            
         }
     }
 }

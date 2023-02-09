@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Metrics;
 using System.Reflection.Emit;
+using System.Xml;
 
 namespace ChillsoftMinutesAPI.Data
 {
@@ -26,14 +27,14 @@ namespace ChillsoftMinutesAPI.Data
             builder.Entity<Roles>()
               .HasMany(ur => ur.UserRoles)
               .WithOne(u => u.Role)
-            .HasForeignKey(ur => ur.RoleId)
-            .IsRequired();
-
-            builder.Entity<MeetingItem>()
-            .HasOne(a => a.MeetingItemStatus)
-            .WithOne(a => a.MeetingItem)
-            .HasForeignKey<MeetingItemStatus>(c => c.Id);
-
+              .HasForeignKey(ur => ur.RoleId)
+              .IsRequired();
+           
+            //builder.Entity<MeetingItemStatus>(b =>
+            //{
+            //    b.HasKey(e => e.Id);
+            //    b.Property(e => e.Id).ValueGeneratedOnAdd();
+            //});
 
         }
         public DbSet<Meeting> Meetings { get; set; }

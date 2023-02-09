@@ -15,7 +15,13 @@ namespace ChillsoftMinutesAPI.Extensions
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IMeetingService, MeetingService>();
+            services.AddScoped<IMeetingItemService, MeetingItemService>();
             services.AddScoped<IMeetingTypeRepository, MeetingTypeRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IMeetingRepository, MeetingRepository>();
+            services.AddScoped<IMeetingItemRepository, MeetingItemRepository>();
+            services.AddScoped<IMeetingItemStatusRepository, MeetingItemStatusRepository>();
 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             var connectionString = config.GetConnectionString("DefaultConnection");
