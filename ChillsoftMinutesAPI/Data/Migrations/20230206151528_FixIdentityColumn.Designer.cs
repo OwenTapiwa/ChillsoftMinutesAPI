@@ -4,6 +4,7 @@ using ChillsoftMinutesAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChillsoftMinutesAPI.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230206151528_FixIdentityColumn")]
+    partial class FixIdentityColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,34 +188,6 @@ namespace ChillsoftMinutesAPI.Data.Migrations
                     b.HasIndex("PersonResponsibleId");
 
                     b.ToTable("MeetingItems");
-                });
-
-            modelBuilder.Entity("ChillsoftMinutesAPI.Entities.MeetingItemStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("AddedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("LastUpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("MeetingItemId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MeetingItemId");
-
-                    b.ToTable("MeetingItemStatuses");
                 });
 
             modelBuilder.Entity("ChillsoftMinutesAPI.Entities.MeetingType", b =>
@@ -406,17 +381,6 @@ namespace ChillsoftMinutesAPI.Data.Migrations
                     b.Navigation("PersonResponsible");
                 });
 
-            modelBuilder.Entity("ChillsoftMinutesAPI.Entities.MeetingItemStatus", b =>
-                {
-                    b.HasOne("ChillsoftMinutesAPI.Entities.MeetingItem", "MeetingItem")
-                        .WithMany("MeetingItemStatus")
-                        .HasForeignKey("MeetingItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MeetingItem");
-                });
-
             modelBuilder.Entity("ChillsoftMinutesAPI.Entities.UserRoles", b =>
                 {
                     b.HasOne("ChillsoftMinutesAPI.Entities.Roles", "Role")
@@ -480,11 +444,6 @@ namespace ChillsoftMinutesAPI.Data.Migrations
             modelBuilder.Entity("ChillsoftMinutesAPI.Entities.Meeting", b =>
                 {
                     b.Navigation("MeetingItem");
-                });
-
-            modelBuilder.Entity("ChillsoftMinutesAPI.Entities.MeetingItem", b =>
-                {
-                    b.Navigation("MeetingItemStatus");
                 });
 
             modelBuilder.Entity("ChillsoftMinutesAPI.Entities.Roles", b =>

@@ -9,7 +9,7 @@ namespace ChillsoftMinutesAPI.Interfaces
         Task<IEnumerable<Meeting>> GetAllMeetingsAsync();
         Task<bool> AddMeetingAsync(Meeting meeting);
         Task<bool> UpdateMeetingAsync(Meeting meeting);
-        Task<Meeting> PreviousMeeting(int meetingId);
-        Task<Meeting> GetMeetingById(string id);
+        Task<Meeting> PreviousMeeting(MeetingType meetingType);
+        Task<Meeting> GetAllMeetingsByIdAsync(int meetingId);
     }
 }

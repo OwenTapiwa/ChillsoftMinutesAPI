@@ -17,8 +17,21 @@ namespace ChillsoftMinutesAPI.Data.Repositories
         }
         public async Task<IEnumerable<Meeting>> GetAllMeetingsAsync()
         {
-            return await _context.Meetings.ToListAsync();
+            return await _context.Meetings
+                .Include(x => x.MeetingType)
+                .Include(x => x.MinutesTaker)
+                .ToListAsync();
         }
+        public async Task<Meeting> GetAllMeetingsByIdAsync(int meetingId)
+        {
+            return await _context.Meetings
+                .Where(x => x.Id == meetingId)
+                .Include(x => x.MeetingType)
+                .Include(x => x.MinutesTaker)
+                .Include(x => x.MeetingItem)
+                .FirstOrDefaultAsync();
+        }
+      
         public async Task<bool> AddMeetingAsync(Meeting meeting)
         {
             _context.Entry(meeting).State = EntityState.Added;
@@ -31,14 +44,9 @@ namespace ChillsoftMinutesAPI.Data.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<Meeting> GetMeetingById(string id)
+        public async Task<Meeting> PreviousMeeting(MeetingType meetingType)
         {
-            return await _context.Meetings.Where(x => x.MeetingId == id.Trim()).FirstOrDefaultAsync();
-        }
-
-        public async Task<Meeting> PreviousMeeting(int meetingId)
-        {
-            return await _context.Meetings.AsNoTracking().Where(x => x.Id == meetingId).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
+            return await _context.Meetings.AsNoTracking().Where(x => x.MeetingType == meetingType).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
         }
     }
 }

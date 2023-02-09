@@ -7,7 +7,7 @@ namespace ChillsoftMinutesAPI.Data.Repositories
     public class MeetingItemStatusRepository : IMeetingItemStatusRepository
     {
         private readonly DataContext _context;
-        public MeetingTypeRepository(DataContext context)
+        public MeetingItemStatusRepository(DataContext context)
         {
             _context = context;
         }
@@ -15,29 +15,25 @@ namespace ChillsoftMinutesAPI.Data.Repositories
         {
             return await _context.SaveChangesAsync() > 0;
         }
-        public async Task<IEnumerable<MeetingType>> GetMeetingTypesAsync()
+        public async Task<IEnumerable<MeetingItemStatus>> GetMeetingItemStatusesAsync()
         {
-            return await _context.MeetingTypes.ToListAsync();
+            return await _context.MeetingItemStatuses.ToListAsync();
         }
-        public async Task<bool> AddTypeAsync(MeetingType meetingType)
+        public async Task<bool> AddMeetingItemStatusAsync(MeetingItemStatus meetingItemStatus)
         {
-            _context.Entry(meetingType).State = EntityState.Added;
+            _context.Entry(meetingItemStatus).State = EntityState.Added;
             return await _context.SaveChangesAsync() > 0;
 
         }
-        public async Task<MeetingType> GetMeetingTypeByName(string name)
+        public async Task<MeetingItemStatus> GetMeetingItemStatusByIdAsync(string id)
         {
-            return await _context.MeetingTypes.Where(x => x.Name == name.Trim()).FirstOrDefaultAsync();
+            return await _context.MeetingItemStatuses.Where(x => x.Id.ToString() == id.Trim()).AsNoTracking().FirstOrDefaultAsync();
         }
-        public async Task<bool> RemoveTypeAsync(MeetingType meetingType)
+        public async Task<bool> UpdateMeetingItemStatusAsync(MeetingItemStatus meetingItemStatus)
         {
-            _context.Entry(meetingType).State = EntityState.Deleted;
+            _context.Entry(meetingItemStatus).State = EntityState.Modified;
             return await _context.SaveChangesAsync() > 0;
 
-        }
-        public bool MeetingTypeExists(string meetingType)
-        {
-            return _context.MeetingTypes.Any(o => o.Name.ToLower().Trim() == meetingType);
         }
 
     }

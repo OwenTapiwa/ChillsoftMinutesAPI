@@ -31,14 +31,17 @@ namespace ChillsoftMinutesAPI.Services
             var users = await _usersRepository.GetUserByUsernameAsync(meetingDto.MinutesTaker);
             if (users == null) return null;
 
-            var previousMeeting = await _meetingRepository.PreviousMeeting(meetingType.Id);
-            if(previousMeeting != null) 
+            var previousMeeting = await _meetingRepository.PreviousMeeting(meetingType);
+            if(previousMeeting == null) 
             {
-                 newMeetingId = meetingType.PreFix + (previousMeeting.Id + 1).ToString();
+                newMeetingId = meetingType.PreFix + '-' + "1";
+              
             }
             else
             {
-                newMeetingId = meetingType.PreFix + "1";
+                var prev = previousMeeting.MeetingId.Trim().Split('-');
+                int prevInt = int.Parse(prev[1]);
+                newMeetingId = meetingType.PreFix + '-' + (prevInt + 1).ToString();
             }
             meeting.MeetingType = meetingType;
             meeting.MinutesTaker = users;
@@ -55,7 +58,7 @@ namespace ChillsoftMinutesAPI.Services
             var meeting = new Meeting();
             var meetingType = await _meetingTypeRepository.GetMeetingTypeByName(meetingDto.MeetingType);
             if (meetingType == null) return null;
-            var previousMeeting = await _meetingRepository.GetMeetingById(meetingDto.MeetingId);
+            var previousMeeting = await _meetingRepository.GetAllMeetingsByIdAsync(int.Parse(meetingDto.MeetingId));
 
             if (previousMeeting != null)
             {

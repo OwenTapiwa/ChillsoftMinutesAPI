@@ -27,7 +27,12 @@ namespace ChillsoftMinutesAPI.Controllers
             var meetings = await _meetingRepository.GetAllMeetingsAsync();
             return Ok(meetings);
         }
-
+        [HttpGet("meeting/meetingId")]
+        public async Task<ActionResult<IEnumerable<Meeting>>> GetMeetings(int meetingId)
+        {
+            var meetings = await _meetingRepository.GetAllMeetingsByIdAsync(meetingId);
+            return Ok(meetings);
+        }
         [HttpPost("addMeeting")]
         public async Task<ActionResult<Meeting>> AddMeeting(MeetingDto meetingDto)
         {
