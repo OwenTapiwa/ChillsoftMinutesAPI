@@ -27,15 +27,15 @@ namespace ChillsoftMinutesAPI.Controllers
             return Ok(meetingItems);
         }
 
-        //[HttpGet("meetingItems/meetingId")]
-        //public async Task<ActionResult<IEnumerable<MeetingItem>>> GetMeetingItems(int meetingId)
-        //{
-        //    var meetingItems = await _meetingItemRepository.GetAllMeetingsByIdAsync(meetingId);
-        //    return Ok(meetingItems);
-        //}
+        [HttpGet("meetingItems/meetingId")]
+        public async Task<ActionResult<IEnumerable<MeetingItemsDto>>> GetMeetingItems(int meetingId)
+        {
+            var meetingItems = await _meetingItemService.GetMeetingItems(meetingId);
+            return Ok(meetingItems);
+        }
 
         [HttpPost("addMeetingItem")]
-        public async Task<ActionResult<MeetingItem>> AddMeetingStatus(MeetingItemDto meetingItemDto)
+        public async Task<ActionResult<MeetingItem>> AddMeetingItem(MeetingItemDto meetingItemDto)
         {
             var meetingItem = await _meetingItemService.CreateMeetingItem(meetingItemDto);
             if (meetingItem != null) return Ok(meetingItem);

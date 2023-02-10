@@ -58,7 +58,7 @@ namespace ChillsoftMinutesAPI.Services
             var meeting = new Meeting();
             var meetingType = await _meetingTypeRepository.GetMeetingTypeByName(meetingDto.MeetingType);
             if (meetingType == null) return null;
-            var previousMeeting = await _meetingRepository.GetAllMeetingsByIdAsync(int.Parse(meetingDto.MeetingId));
+            var previousMeeting = await _meetingRepository.GetMeetingsByIdAsync(int.Parse(meetingDto.MeetingId));
 
             if (previousMeeting != null)
             {
@@ -73,6 +73,14 @@ namespace ChillsoftMinutesAPI.Services
                 if (result) return meeting;
 
             }
+
+            return null;
+        }
+
+        public async Task<IEnumerable<MeetingResponseDto>> GetMeeting(int meetingId)
+        {
+            var meeting = await _meetingRepository.GetMeetingsByIdDtoAsync(meetingId);
+            if (meeting != null) return meeting;
 
             return null;
         }

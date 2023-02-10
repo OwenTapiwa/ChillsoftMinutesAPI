@@ -16,7 +16,9 @@ namespace ChillsoftMinutesAPI.Helpers
             CreateMap<AppUser, MemberDto>();
             CreateMap<MeetingItemStatusDto, MeetingItemStatus>()
                 .ForMember(x => x.LastUpdatedDate, opt => opt.MapFrom(src => DateTime.Now));
-            
+            CreateMap<MeetingItem, MeetingItemsDto>()
+                .ForMember(x => x.MeetingItemStatus, opt => opt.MapFrom(src => src.MeetingItemStatus.SingleOrDefault(x => x.Status != "").Status));
+            CreateMap<Meeting, MeetingResponseDto>();
         }
     }
 }

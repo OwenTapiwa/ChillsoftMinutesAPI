@@ -28,7 +28,7 @@ namespace ChillsoftMinutesAPI.Services
             string newMeetingId = "";
             var meetingItem = new MeetingItem();
             var meetingItemStatus = new MeetingItemStatus();
-            var meeting = await _meetingRepository.GetAllMeetingsByIdAsync(int.Parse(meetingItemDto.MeetingId));
+            var meeting = await _meetingRepository.GetMeetingsByIdAsync(int.Parse(meetingItemDto.MeetingId));
             if (meeting == null) return null;
 
             var users = await _usersRepository.GetUserByIdAsync(meetingItemDto.PersonResponsible);
@@ -54,10 +54,9 @@ namespace ChillsoftMinutesAPI.Services
             return null;
         }
 
-
         public async Task<MeetingItem> UpdateMeetingItem(MeetingItemDto meetingItemDto)
         {
-            var meeting = await _meetingRepository.GetAllMeetingsByIdAsync(int.Parse(meetingItemDto.MeetingId));
+            var meeting = await _meetingRepository.GetMeetingsByIdAsync(int.Parse(meetingItemDto.MeetingId));
             if (meeting == null) return null;
 
             var users = await _usersRepository.GetUserByIdAsync(meetingItemDto.PersonResponsible);
@@ -78,5 +77,21 @@ namespace ChillsoftMinutesAPI.Services
 
             return null;
         }
+        public async Task<IEnumerable<MeetingItemsDto>> GetMeetingItems(int meetingId)
+        {
+            var meetingItemsDto = new MeetingItemsDto();
+            var meeting = await _meetingRepository.GetMeetingsByIdAsync(meetingId);
+            if (meeting == null) return null;
+
+          
+            var meetingItems = await _meetingItemRepository.GetMeetingItemByMeeting(meeting);
+            List<MeetingItem> copy = meetingItems.ToList();
+            var list = _mapper.Map<List<MeetingItem>, List<MeetingItemsDto>>(copy);
+            
+            if (meetingItems != null) return list;
+
+            return null;
+        }
+
     }
 }
