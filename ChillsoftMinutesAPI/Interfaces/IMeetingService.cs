@@ -7,5 +7,6 @@ namespace ChillsoftMinutesAPI.Interfaces
     {
         Task<Meeting> CreateMeeting(MeetingDto meetingDto);
         Task<Meeting> UpdateMeeting(MeetingDto meetingDto);
+        Task<IEnumerable<MeetingResponseDto>> GetMeeting(int meetingId);
     }
 }

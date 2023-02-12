@@ -27,26 +27,26 @@ namespace ChillsoftMinutesAPI.Controllers
             return Ok(meetingItems);
         }
 
-        //[HttpGet("meetingItems/meetingId")]
-        //public async Task<ActionResult<IEnumerable<MeetingItem>>> GetMeetingItems(int meetingId)
-        //{
-        //    var meetingItems = await _meetingItemRepository.GetAllMeetingsByIdAsync(meetingId);
-        //    return Ok(meetingItems);
-        //}
+        [HttpGet("meetingItems/meetingId")]
+        public async Task<ActionResult<IEnumerable<MeetingItemsDto>>> GetMeetingItems(string meetingId)
+        {
+            var meetingItems = await _meetingItemService.GetMeetingItems(meetingId);
+            return Ok(meetingItems);
+        }
 
         [HttpPost("addMeetingItem")]
-        public async Task<ActionResult<MeetingItem>> AddMeetingStatus(MeetingItemDto meetingItemDto)
+        public async Task<ActionResult<MeetingItemsDto>> AddMeetingItem(MeetingItemDto meetingItemDto)
         {
             var meetingItem = await _meetingItemService.CreateMeetingItem(meetingItemDto);
-            if (meetingItem != null) return Ok(meetingItem);
+            if (meetingItem != null) return NoContent();
             return BadRequest("Failed to add meeting item");
         }
 
-        [HttpPost("updateMeeting")]
-        public async Task<ActionResult<Meeting>> UpdateMeeting(MeetingItemDto meetingItemDto)
+        [HttpPost("editMeetingItem")]
+        public async Task<ActionResult<MeetingItemsDto>> EditMeetingItem(MeetingItemDto meetingItemDto)
         {
             var meeting = await _meetingItemService.UpdateMeetingItem(meetingItemDto);
-            if (meeting != null) return Ok(meeting);
+            if (meeting != null) return NoContent();
             return BadRequest("Failed to update meeting");
         }
     }
