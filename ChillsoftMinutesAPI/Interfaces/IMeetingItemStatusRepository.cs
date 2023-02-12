@@ -9,6 +9,7 @@ namespace ChillsoftMinutesAPI.Interfaces
         Task<bool> AddMeetingItemStatusAsync(MeetingItemStatus meetingItemStatus);
         Task<MeetingItemStatus> GetMeetingItemStatusByIdAsync(string id);
         Task<bool> UpdateMeetingItemStatusAsync(MeetingItemStatus meetingItemStatus);
+        Task<MeetingItemStatus> GetNotCompleMeetingItemStatusAsync(MeetingItem meetingItem);
 
     }
 }

@@ -11,13 +11,23 @@ namespace ChillsoftMinutesAPI.Controllers
     public class MeetingItemStatusController : BaseApiController
     {
         private readonly IMeetingItemStatusRepository _meetingItemStatusRepository;
+        private readonly IMeetingItemStatusService _meetingItemStatusService;
         private readonly IMapper _mapper;
-        public MeetingItemStatusController(IMeetingItemStatusRepository meetingItemStatusRepository, IMapper mapper)
+        public MeetingItemStatusController(IMeetingItemStatusRepository meetingItemStatusRepository, IMapper mapper, IMeetingItemStatusService meetingItemStatusService)
         {
             _meetingItemStatusRepository = meetingItemStatusRepository;
+            _meetingItemStatusService = meetingItemStatusService;
             _mapper = mapper;
         }
 
+        [HttpPost("addMeetingItemStatus")]
+        public async Task<ActionResult<MeetingItemStatus>> AddMeetingItemStatus(MeetingItemStatusDto meetingItemStatusDto)
+        {
+            
+            var meetingStatusResult = await _meetingItemStatusService.CreateMeetingItemStatus(meetingItemStatusDto);
+            if (meetingStatusResult != null) return NoContent();
+            return BadRequest("Failed to add item status");
+        }
 
         [HttpPost("editMeetingItemStatus")]
         public async Task<ActionResult<MeetingItemStatus>> EditMeetingItemStatus(MeetingItemStatusDto meetingItemStatusDto)

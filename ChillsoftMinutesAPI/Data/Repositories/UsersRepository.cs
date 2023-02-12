@@ -37,6 +37,7 @@ namespace ChillsoftMinutesAPI.Data.Repositories
         {
             return await _context.Users
                 .Include(p => p.UserRoles)
+                .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.UserName == username);
         }
 

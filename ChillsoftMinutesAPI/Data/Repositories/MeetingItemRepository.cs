@@ -38,7 +38,16 @@ namespace ChillsoftMinutesAPI.Data.Repositories
             return await _context.MeetingItems
                 .Where(x => x.Id.ToString() == id.Trim())
                 .Include(x => x.MeetingItemStatus)
+                .AsNoTracking()
                 .FirstOrDefaultAsync();
+        }
+        public async Task<IEnumerable<MeetingItem>> GetMeetingItemsByMeetingIdAsync(string id)
+        {
+            return await _context.MeetingItems
+                .Where(x => x.Meeting.MeetingId.ToString() == id.Trim())
+                .Include(x => x.MeetingItemStatus)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<MeetingItem>> GetMeetingItemByMeeting(Meeting meeting)
@@ -47,6 +56,7 @@ namespace ChillsoftMinutesAPI.Data.Repositories
                 .Where(x => x.Meeting == meeting)
                 .Include(x => x.MeetingItemStatus)
                 .Include(x => x.PersonResponsible)
+                .AsNoTracking()
                 .ToListAsync();
         }
 

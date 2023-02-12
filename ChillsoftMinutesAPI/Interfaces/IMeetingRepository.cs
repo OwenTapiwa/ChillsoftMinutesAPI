@@ -13,5 +13,6 @@ namespace ChillsoftMinutesAPI.Interfaces
         Task<Meeting> PreviousMeeting(MeetingType meetingType);
         Task<Meeting> GetMeetingsByIdAsync(int meetingId);
         Task<IEnumerable<MeetingResponseDto>> GetMeetingsByIdDtoAsync(int meetingId);
+        Task<Meeting> GetMeetingsByMeetingIdAsync(string meetingId);
     }
 }

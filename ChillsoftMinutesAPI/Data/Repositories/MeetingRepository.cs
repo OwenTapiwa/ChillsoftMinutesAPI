@@ -37,6 +37,17 @@ namespace ChillsoftMinutesAPI.Data.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<Meeting> GetMeetingsByMeetingIdAsync(string meetingId)
+        {
+            return await _context.Meetings
+                .Where(x => x.MeetingId == meetingId)
+                .Include(x => x.MeetingType)
+                .Include(x => x.MinutesTaker)
+                .Include(x => x.MeetingItem)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<MeetingResponseDto>> GetMeetingsByIdDtoAsync(int meetingId)
         {
             var meeting = await _context.Meetings

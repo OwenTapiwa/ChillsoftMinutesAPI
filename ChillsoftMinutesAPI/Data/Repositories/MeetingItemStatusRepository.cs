@@ -29,6 +29,13 @@ namespace ChillsoftMinutesAPI.Data.Repositories
         {
             return await _context.MeetingItemStatuses.Where(x => x.Id.ToString() == id.Trim()).AsNoTracking().FirstOrDefaultAsync();
         }
+        public async Task<MeetingItemStatus> GetNotCompleMeetingItemStatusAsync(MeetingItem meetingItem)
+        {
+            return await _context.MeetingItemStatuses
+                .Where(x => x.MeetingItem == meetingItem)
+                 .Include(x => x.MeetingItem)
+                .AsNoTracking().FirstOrDefaultAsync();
+        }
         public async Task<bool> UpdateMeetingItemStatusAsync(MeetingItemStatus meetingItemStatus)
         {
             _context.Entry(meetingItemStatus).State = EntityState.Modified;

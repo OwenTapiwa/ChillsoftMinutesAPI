@@ -28,7 +28,7 @@ namespace ChillsoftMinutesAPI.Data.Repositories
         }
         public async Task<MeetingType> GetMeetingTypeByName(string name)
         {
-            return await _context.MeetingTypes.Where(x => x.Name == name.Trim()).FirstOrDefaultAsync();
+            return await _context.MeetingTypes.Where(x => x.Name == name.Trim()).AsNoTracking().FirstOrDefaultAsync();
         }
         public async Task<bool> RemoveTypeAsync(MeetingType meetingType)
         {

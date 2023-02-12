@@ -10,5 +10,6 @@ namespace ChillsoftMinutesAPI.Interfaces
         Task<bool> UpdateMeetingItemAsync(MeetingItem meetingItem);
         Task<MeetingItem> GetMeetingItemByIdAsync(string id);
         Task<IEnumerable<MeetingItem>> GetMeetingItemByMeeting(Meeting meeting);
+        Task<IEnumerable<MeetingItem>> GetMeetingItemsByMeetingIdAsync(string id);
     }
 }

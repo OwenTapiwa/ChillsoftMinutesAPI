@@ -17,6 +17,7 @@ namespace ChillsoftMinutesAPI.Extensions
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IMeetingService, MeetingService>();
             services.AddScoped<IMeetingItemService, MeetingItemService>();
+            services.AddScoped<IMeetingItemStatusService, MeetingItemStatusService>();
             services.AddScoped<IMeetingTypeRepository, MeetingTypeRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<IMeetingRepository, MeetingRepository>();

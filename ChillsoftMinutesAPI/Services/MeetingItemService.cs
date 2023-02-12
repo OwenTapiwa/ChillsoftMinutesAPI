@@ -28,10 +28,10 @@ namespace ChillsoftMinutesAPI.Services
             string newMeetingId = "";
             var meetingItem = new MeetingItem();
             var meetingItemStatus = new MeetingItemStatus();
-            var meeting = await _meetingRepository.GetMeetingsByIdAsync(int.Parse(meetingItemDto.MeetingId));
+            var meeting = await _meetingRepository.GetMeetingsByMeetingIdAsync(meetingItemDto.MeetingId);
             if (meeting == null) return null;
 
-            var users = await _usersRepository.GetUserByIdAsync(meetingItemDto.PersonResponsible);
+            var users = await _usersRepository.GetUserByUsernameAsync(meetingItemDto.PersonResponsible);
             if (users == null) return null;
 
             meetingItem.Action = meetingItemDto.Action;
@@ -56,10 +56,10 @@ namespace ChillsoftMinutesAPI.Services
 
         public async Task<MeetingItem> UpdateMeetingItem(MeetingItemDto meetingItemDto)
         {
-            var meeting = await _meetingRepository.GetMeetingsByIdAsync(int.Parse(meetingItemDto.MeetingId));
+            var meeting = await _meetingRepository.GetMeetingsByMeetingIdAsync(meetingItemDto.MeetingId);
             if (meeting == null) return null;
 
-            var users = await _usersRepository.GetUserByIdAsync(meetingItemDto.PersonResponsible);
+            var users = await _usersRepository.GetUserByUsernameAsync(meetingItemDto.PersonResponsible);
             if (users == null) return null;
 
             var meetingItem = await _meetingItemRepository.GetMeetingItemByIdAsync(meetingItemDto.MeetingItemId);
@@ -77,12 +77,10 @@ namespace ChillsoftMinutesAPI.Services
 
             return null;
         }
-        public async Task<IEnumerable<MeetingItemsDto>> GetMeetingItems(int meetingId)
+        public async Task<IEnumerable<MeetingItemsDto>> GetMeetingItems(string meetingId)
         {
-            var meetingItemsDto = new MeetingItemsDto();
-            var meeting = await _meetingRepository.GetMeetingsByIdAsync(meetingId);
+            var meeting = await _meetingRepository.GetMeetingsByMeetingIdAsync(meetingId);
             if (meeting == null) return null;
-
           
             var meetingItems = await _meetingItemRepository.GetMeetingItemByMeeting(meeting);
             List<MeetingItem> copy = meetingItems.ToList();

@@ -34,18 +34,18 @@ namespace ChillsoftMinutesAPI.Controllers
             return Ok(meetings);
         }
         [HttpPost("addMeeting")]
-        public async Task<ActionResult<Meeting>> AddMeeting(MeetingDto meetingDto)
+        public async Task<ActionResult<MeetingResponseDto>> AddMeeting(MeetingDto meetingDto)
         {
             var meeting = await _meetingService.CreateMeeting(meetingDto);
-            if(meeting != null)  return Ok(meeting);
+            if(meeting != null)  return NoContent();
             return BadRequest("Failed to add meeting");
         }
 
         [HttpPost("updateMeeting")]
-        public async Task<ActionResult<Meeting>> UpdateMeeting(MeetingDto meetingDto)
+        public async Task<ActionResult<MeetingResponseDto>> UpdateMeeting(MeetingDto meetingDto)
         {
             var meeting = await _meetingService.UpdateMeeting(meetingDto);
-            if (meeting != null) return Ok(meeting);
+            if (meeting != null) return NoContent();
             return BadRequest("Failed to update meeting");
         }
     }
